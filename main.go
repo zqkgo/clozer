@@ -18,6 +18,8 @@ var ignChars map[rune]bool = map[rune]bool{
 	'、': true,
 }
 
+var defaultPath = "./article.txt"
+
 func main() {
 	var (
 		path   string
@@ -27,7 +29,8 @@ func main() {
 	flag.StringVar(&symbol, "symbol", "x", "symbol to cloze")
 	flag.Parse()
 	if path == "" {
-		log.Fatalln("path must be specified")
+		path = defaultPath
+		log.Printf("path not be specified, will use default path: %s\n", path)
 	}
 
 	// open and read original file
