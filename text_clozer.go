@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
-	"os"
 )
 
 var ignChars map[rune]bool = map[rune]bool{
@@ -20,25 +20,14 @@ var ignChars map[rune]bool = map[rune]bool{
 
 type textClozer struct{}
 
-func (tc *textClozer) Cloze(rc io.ReadCloser) (string, error) {
-	bs, err := ioutil.ReadAll(rc)
+func (tc *textClozer) Cloze(rd io.ReadCloser) (string, error) {
+	bs, err := ioutil.ReadAll(rd)
 	if err != nil {
 		return "", err
 	}
-	defer rc.Close()
+	defer rd.Close()
 	txt := []rune(string(bs))
-	// open and write cloze files
-	p1, p2 := path+".cloze.1", path+".cloze.2"
-	clozeFile, err := os.OpenFile(p1, os.O_CREATE|os.O_RDWR|os.O_TRUNC|os.O_APPEND, 0766)
-	if err != nil {
-		log.Fatalf("failed to create cloze file: %s, error: %+v\n", p1, err)
-	}
-	defer clozeFile.Close()
-	clozeRevFile, err := os.OpenFile(p2, os.O_CREATE|os.O_RDWR|os.O_TRUNC|os.O_APPEND, 0766)
-	if err != nil {
-		log.Fatalf("failed to create cloze reverse file: %s, error: %+v\n", p2, err)
-	}
-	defer clozeRevFile.Close()
+	var bf1, bf2 bytes.Buffer
 
 	idx := 0
 	for i := 0; i < len(txt); i++ {
@@ -52,14 +41,14 @@ func (tc *textClozer) Cloze(rc io.ReadCloser) (string, error) {
 			}
 			idx++
 		}
-		_, err = clozeFile.WriteString(s1)
+		_, err = bf1.WriteString(s1)
 		if err != nil {
-			log.Fatalf("failed to write cloze file: %s, error: %+v\n", p1, err)
+			return "", fmt.Errorf("failed to write buffer, error: %+v", err)
 		}
-		_, err = clozeRevFile.WriteString(s2)
+		_, err = bf2.WriteString(s2)
 		if err != nil {
-			log.Fatalf("failed to write cloze file: %s, error: %+v\n", p2, err)
+			return "", fmt.Errorf("failed to write buffer, error: %+v", err)
 		}
 	}
-	return "", nil
+	return bf1.String() + "\n" + bf2.String(), nil
 }
