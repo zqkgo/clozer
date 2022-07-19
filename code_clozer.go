@@ -19,13 +19,19 @@ func (cc *codeClozer) Cloze(rc io.ReadCloser) (string, error) {
 		t := s.Text()
 		// t := strings.TrimSpace(orit)
 		if !cc.shouldSkip(t) {
-			pure := strings.TrimSpace(t)
-			ct := fmt.Sprintf("{{c%d::%s}}\n", idx, pure)
+			pure := t
+			commentSign := strings.Index(pure, "//")
+			if commentSign != -1 {
+				pure = pure[:commentSign]
+			}
+			pure = strings.TrimSpace(pure)
+
+			ct := fmt.Sprintf("{{c%d::%s}}", idx, pure)
 			idx++
 			t = strings.Replace(t, pure, ct, 1)
-		} else {
-			t = t + "\n"
+
 		}
+		t += "\n"
 		_, err := bf.WriteString(t)
 		if err != nil {
 			return "", err
