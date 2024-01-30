@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"io/ioutil"
 )
 
 var ignChars map[rune]bool = map[rune]bool{
@@ -21,7 +20,7 @@ var ignChars map[rune]bool = map[rune]bool{
 type textClozer struct{}
 
 func (tc *textClozer) Cloze(rd io.ReadCloser) (string, error) {
-	bs, err := ioutil.ReadAll(rd)
+	bs, err := io.ReadAll(rd)
 	if err != nil {
 		return "", err
 	}
@@ -35,9 +34,9 @@ func (tc *textClozer) Cloze(rd io.ReadCloser) (string, error) {
 		s1, s2 := string(c), string(c)
 		if !ignChars[c] {
 			if idx%2 == 0 {
-				s1 = symbol
+				s1 = replaceChar(s1, false)
 			} else {
-				s2 = symbol
+				s2 = replaceChar(s1, false)
 			}
 			idx++
 		}
@@ -51,4 +50,11 @@ func (tc *textClozer) Cloze(rd io.ReadCloser) (string, error) {
 		}
 	}
 	return bf1.String() + "\n" + bf2.String(), nil
+}
+
+func replaceChar(c string, cloze bool) string {
+	if !cloze {
+		return symbol
+	}
+	return "{{c1::" + c + "}}"
 }
