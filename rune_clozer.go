@@ -34,9 +34,9 @@ func (tc *textClozer) Cloze(rd io.ReadCloser) (string, error) {
 		s1, s2 := string(c), string(c)
 		if !ignChars[c] {
 			if idx%2 == 0 {
-				s1 = replaceChar(s1, false)
+				s1 = replaceChar(s1, true)
 			} else {
-				s2 = replaceChar(s1, false)
+				s2 = replaceChar(s1, true)
 			}
 			idx++
 		}
