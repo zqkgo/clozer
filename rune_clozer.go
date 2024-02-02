@@ -17,9 +17,9 @@ var ignChars map[rune]bool = map[rune]bool{
 	'、': true,
 }
 
-type textClozer struct{}
+type runeClozer struct{}
 
-func (tc *textClozer) Cloze(rd io.ReadCloser) (string, error) {
+func (tc *runeClozer) Cloze(rd io.ReadCloser) (string, error) {
 	bs, err := io.ReadAll(rd)
 	if err != nil {
 		return "", err
