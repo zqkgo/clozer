@@ -16,10 +16,14 @@ func (cc *wordClozer) Cloze(rc io.ReadCloser) (string, error) {
 	if len(bs) == 0 {
 		return "", errors.New("empty text")
 	}
+	r1 := clozeWord(bs, false)
+	r2 := clozeWord(bs, true)
+	return r1 + "\n" + r2, nil
+}
 
+func clozeWord(bs []byte, toggleCloze bool) string {
 	var idx int
 	var result []byte
-	var toggleCloze bool
 	for idx < len(bs) {
 		// 跳过开头连续的空格。
 		if len(result) == 0 && bs[idx] == ' ' {
@@ -55,7 +59,7 @@ func (cc *wordClozer) Cloze(rc io.ReadCloser) (string, error) {
 		result = append(result, word...)
 		toggleCloze = !toggleCloze
 	}
-	return string(result), nil
+	return string(result)
 }
 
 func isLetter(r byte) bool {
