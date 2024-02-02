@@ -11,6 +11,7 @@ import (
 const (
 	typeCodeClozer = "code"
 	typeTextClozer = "text"
+	typeWordClozer = "word"
 )
 
 var (
@@ -56,6 +57,8 @@ func getClozer(t string) Clozer {
 		return &codeClozer{}
 	case typeTextClozer:
 		return &textClozer{}
+	case typeWordClozer:
+		return &wordClozer{}
 	default:
 		return &codeClozer{}
 	}
