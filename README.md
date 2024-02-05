@@ -1,32 +1,6 @@
 # Clozer
 
-a tool to cloze code, text, etc.
-
-```
-go run . code -path=./code
-```
-
-output 👇
-```
-{{c1::func (wq *loopQueue) len() int {}}
-        {{c2::if wq.size == 0 {}}
-                {{c3::return 0}}
-        }
-
-        {{c4::if wq.head == wq.tail {}}
-                {{c5::if wq.isFull {}}
-                        {{c6::return wq.size}}
-                }
-                {{c7::return 0}}
-        }
-
-        {{c8::if wq.tail > wq.head {}}
-                {{c9::return wq.tail - wq.head}}
-        }
-
-        {{c10::return wq.size - wq.head + wq.tail}}
-}
-```
+A tool to cloze word, rune, etc.
 
 ```
 go run . word -path=./text
@@ -34,5 +8,5 @@ go run . word -path=./text
 
 output 👇
 ```
-Lorem {{c1::ipsum}} dolor {{c1::sit}} amet, {{c1::consectetur}} adipiscing {{c1::elit}}, sed {{c1::do}} eiusmod {{c1::tempor}} incididunt {{c1::ut}} labore {{c1::et}} dolore {{c1::magna}} aliqua. {{c1::In}} hac {{c1::habitasse}} platea {{c1::dictumst}} vestibulum {{c1::rhoncus}} est. {{c1::Quam}} nulla {{c1::porttitor}} massa {{c1::id}} neque {{c1::aliquam}}. Sed {{c1::blandit}} libero {{c1::volutpat}} sed {{c1::cras}}. Pretium {{c1::fusce}} id {{c1::velit}} ut {{c1::tortor}} pretium {{c1::viverra}}. In {{c1::vitae}} turpis {{c1::massa}} sed {{c1::elementum}} tempus {{c1::egestas}} sed. {{c1::Placerat}} vestibulum {{c1::lectus}} mauris {{c1::ultrices}} eros {{c1::in}}. Vel {{c1::quam}} elementum {{c1::pulvinar}} etiam {{c1::non}} quam {{c1::lacus}} suspendisse {{c1::faucibus}}. Et {{c1::pharetra}} pharetra {{c1::massa}} massa {{c1::ultricies}}. Neque {{c1::viverra}} justo {{c1::nec}} ultrices {{c1::dui}} sapien. {{c1::Amet}} commodo {{c1::nulla}} facilisi {{c1::nullam}} vehicula {{c1::ipsum}}. Ullamcorper {{c1::malesuada}} proin {{c1::libero}} nunc {{c1::consequat}} interdum {{c1::varius}} sit.
+The {{c1::plane}} was {{c1::late}} and {{c1::detectives}} were {{c1::waiting}} at {{c1::the}} airport {{c1::all}} morning. {{c1::They}} were {{c1::expecting}} a {{c1::valuable}} parcel {{c1::of}} diamonds {{c1::from}} South {{c1::Africa}}. A {{c1::few}} hours {{c1::earlier}}, someone {{c1::had}} told {{c1::the}} police {{c1::that}} thieves {{c1::would}} try {{c1::to}} steal {{c1::the}} diamonds. {{c1::When}} the {{c1::plane}} arrived, {{c1::some}} of {{c1::the}} detectives {{c1::were}} waiting {{c1::inside}} the {{c1::main}} building {{c1::while}} others {{c1::were}} waiting {{c1::on}} the {{c1::airfield}}. Two {{c1::men}} took {{c1::the}} parcel {{c1::off}} the {{c1::plane}} and {{c1::carried}} it {{c1::into}} the {{c1::Customs}} House. {{c1::While}} two {{c1::detectives}} were {{c1::keeping}} guard {{c1::at}} the {{c1::door}}, two {{c1::others}} opened {{c1::the}} parcel. {{c1::To}} their {{c1::surprise}}, the {{c1::precious}} parcel {{c1::was}} full {{c1::of}} stones {{c1::and}} sand!
 ```
