@@ -24,7 +24,7 @@ func (tc *runeClozer) Cloze(rd io.ReadCloser, opts ...clozeOpt) (string, error) 
 		// 非 rune 的字符，例如英语单词。
 		var notRuneWord []rune
 		for i < len(txt) {
-			if !isLetter(byte(txt[i])) {
+			if !isRuneLetter(txt[i]) {
 				break
 			}
 			notRuneWord = append(notRuneWord, txt[i])

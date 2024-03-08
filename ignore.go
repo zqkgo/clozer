@@ -34,6 +34,8 @@ var ignRunes map[rune]bool = map[rune]bool{
 	'“': true,
 	'”': true,
 	'、': true,
+	'（': true,
+	'）': true,
 }
 
 var ignWords map[string]bool = map[string]bool{}

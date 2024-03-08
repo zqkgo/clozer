@@ -45,3 +45,11 @@ func main() {
 	}
 	fmt.Println(s)
 }
+
+func isRuneLetter(r rune) bool {
+	return r >= 'A' && r <= 'Z' || r >= 'a' && r <= 'z'
+}
+
+func isLetter(r byte) bool {
+	return r >= 'A' && r <= 'Z' || r >= 'a' && r <= 'z'
+}

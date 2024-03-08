@@ -61,7 +61,3 @@ func clozeWord(bs []byte, toggleCloze bool) string {
 	}
 	return string(result)
 }
-
-func isLetter(r byte) bool {
-	return r >= 'A' && r <= 'Z' || r >= 'a' && r <= 'z'
-}
