@@ -6,17 +6,6 @@ import (
 	"io"
 )
 
-var ignChars map[rune]bool = map[rune]bool{
-	'，': true,
-	'。': true,
-	'！': true,
-	'？': true,
-	'；': true,
-	'“': true,
-	'”': true,
-	'、': true,
-}
-
 type runeClozer struct{}
 
 func (tc *runeClozer) Cloze(rd io.ReadCloser) (string, error) {
@@ -32,7 +21,7 @@ func (tc *runeClozer) Cloze(rd io.ReadCloser) (string, error) {
 	for i := 0; i < len(txt); i++ {
 		c := txt[i]
 		s1, s2 := string(c), string(c)
-		if !ignChars[c] {
+		if !ignRunes[c] {
 			if idx%2 == 0 {
 				s1 = replaceChar(s1, true)
 			} else {
