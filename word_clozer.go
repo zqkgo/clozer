@@ -7,7 +7,7 @@ import (
 
 type wordClozer struct{}
 
-func (cc *wordClozer) Cloze(rc io.ReadCloser) (string, error) {
+func (cc *wordClozer) Cloze(rc io.ReadCloser, opts ...clozeOpt) (string, error) {
 	defer rc.Close()
 	bs, err := io.ReadAll(rc)
 	if err != nil {

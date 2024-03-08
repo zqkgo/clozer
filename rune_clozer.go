@@ -8,7 +8,7 @@ import (
 
 type runeClozer struct{}
 
-func (tc *runeClozer) Cloze(rd io.ReadCloser) (string, error) {
+func (tc *runeClozer) Cloze(rd io.ReadCloser, opts ...clozeOpt) (string, error) {
 	bs, err := io.ReadAll(rd)
 	if err != nil {
 		return "", err
@@ -20,6 +20,22 @@ func (tc *runeClozer) Cloze(rd io.ReadCloser) (string, error) {
 	idx := 0
 	for i := 0; i < len(txt); i++ {
 		c := txt[i]
+
+		// 非 rune 的字符，例如英语单词。
+		var notRuneWord []rune
+		for i < len(txt) {
+			if !isLetter(byte(txt[i])) {
+				break
+			}
+			notRuneWord = append(notRuneWord, txt[i])
+			i++
+		}
+		if len(notRuneWord) > 0 {
+			bf1.WriteString(string(notRuneWord))
+			bf2.WriteString(string(notRuneWord))
+			continue
+		}
+
 		s1, s2 := string(c), string(c)
 		if !ignRunes[c] {
 			if idx%2 == 0 {

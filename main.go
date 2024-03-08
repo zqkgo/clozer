@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io"
 	"log"
 	"os"
 )
@@ -21,10 +20,6 @@ var (
 	defaultPath = "./content"
 	fs          flag.FlagSet
 )
-
-type Clozer interface {
-	Cloze(io.ReadCloser) (string, error)
-}
 
 func init() {
 	fs.StringVar(&path, "path", "", "path of file containing content")
@@ -49,17 +44,4 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(s)
-}
-
-func getClozer(t string) Clozer {
-	switch t {
-	case typeCodeClozer:
-		return &codeClozer{}
-	case typeRuneClozer:
-		return &runeClozer{}
-	case typeWordClozer:
-		return &wordClozer{}
-	default:
-		return &codeClozer{}
-	}
 }
