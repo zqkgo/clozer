@@ -23,19 +23,28 @@ func init() {
 	} {
 		ignWords[word] = true
 	}
+
+	for _, r := range []rune{
+		'，',
+		'。',
+		'！',
+		'？',
+		'；',
+		'：',
+		'“',
+		'”',
+		'、',
+		'（',
+		'）',
+		'(',
+		')',
+		' ',
+		'.',
+		':',
+	} {
+		ignRunes[r] = true
+	}
 }
 
-var ignRunes map[rune]bool = map[rune]bool{
-	'，': true,
-	'。': true,
-	'！': true,
-	'？': true,
-	'；': true,
-	'“': true,
-	'”': true,
-	'、': true,
-	'（': true,
-	'）': true,
-}
-
+var ignRunes map[rune]bool = map[rune]bool{}
 var ignWords map[string]bool = map[string]bool{}

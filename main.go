@@ -46,8 +46,9 @@ func main() {
 	fmt.Println(s)
 }
 
-func isRuneLetter(r rune) bool {
-	return r >= 'A' && r <= 'Z' || r >= 'a' && r <= 'z'
+func multiByteRune(r rune) bool {
+	letter := r >= 'A' && r <= 'Z' || r >= 'a' && r <= 'z'
+	return !letter
 }
 
 func isLetter(r byte) bool {

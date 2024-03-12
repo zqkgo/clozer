@@ -19,12 +19,10 @@ func (tc *runeClozer) Cloze(rd io.ReadCloser, opts ...clozeOpt) (string, error) 
 
 	idx := 0
 	for i := 0; i < len(txt); i++ {
-		c := txt[i]
-
 		// 非 rune 的字符，例如英语单词。
 		var notRuneWord []rune
 		for i < len(txt) {
-			if !isRuneLetter(txt[i]) {
+			if multiByteRune(txt[i]) {
 				break
 			}
 			notRuneWord = append(notRuneWord, txt[i])
@@ -33,9 +31,11 @@ func (tc *runeClozer) Cloze(rd io.ReadCloser, opts ...clozeOpt) (string, error) 
 		if len(notRuneWord) > 0 {
 			bf1.WriteString(string(notRuneWord))
 			bf2.WriteString(string(notRuneWord))
+			// 回退到前一个字符。
+			i--
 			continue
 		}
-
+		c := txt[i]
 		s1, s2 := string(c), string(c)
 		if !ignRunes[c] {
 			if idx%2 == 0 {
