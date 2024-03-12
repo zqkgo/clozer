@@ -41,6 +41,7 @@ func init() {
 		' ',
 		'.',
 		':',
+		'·',
 	} {
 		ignRunes[r] = true
 	}
