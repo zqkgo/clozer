@@ -1,4 +1,4 @@
-package main
+package clozer
 
 import (
 	"errors"
@@ -7,7 +7,7 @@ import (
 
 type wordClozer struct{}
 
-func (cc *wordClozer) Cloze(rc io.ReadCloser, opts ...clozeOpt) (string, error) {
+func (cc *wordClozer) Cloze(rc io.ReadCloser, opts ...ClozeOpt) (string, error) {
 	defer rc.Close()
 	bs, err := io.ReadAll(rc)
 	if err != nil {
@@ -32,7 +32,7 @@ func clozeWord(bs []byte, toggleCloze bool) string {
 		}
 		// 非字母原样放回。
 		for idx < len(bs) {
-			if !isLetter(bs[idx]) {
+			if !IsLetter(bs[idx]) {
 				result = append(result, bs[idx])
 				idx++
 				continue
@@ -42,7 +42,7 @@ func clozeWord(bs []byte, toggleCloze bool) string {
 		// 找到下一个单词。
 		var word []byte
 		for idx < len(bs) {
-			if !isLetter(bs[idx]) {
+			if !IsLetter(bs[idx]) {
 				break
 			}
 			word = append(word, bs[idx])

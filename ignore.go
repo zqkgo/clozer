@@ -1,4 +1,4 @@
-package main
+package clozer
 
 func init() {
 	for _, word := range []string{

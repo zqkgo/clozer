@@ -1,4 +1,4 @@
-package main
+package clozer
 
 import (
 	"bufio"
@@ -10,7 +10,7 @@ import (
 
 type codeClozer struct{}
 
-func (cc *codeClozer) Cloze(rc io.ReadCloser, opts ...clozeOpt) (string, error) {
+func (cc *codeClozer) Cloze(rc io.ReadCloser, opts ...ClozeOpt) (string, error) {
 	defer rc.Close()
 	var bf bytes.Buffer
 	s := bufio.NewScanner(rc)

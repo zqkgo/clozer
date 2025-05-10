@@ -1,4 +1,4 @@
-package main
+package clozer
 
 import (
 	"bytes"
@@ -8,12 +8,18 @@ import (
 
 type runeClozer struct{}
 
-func (tc *runeClozer) Cloze(rd io.ReadCloser, opts ...clozeOpt) (string, error) {
+func (tc *runeClozer) Cloze(rd io.ReadCloser, opts ...ClozeOpt) (string, error) {
 	bs, err := io.ReadAll(rd)
 	if err != nil {
 		return "", err
 	}
 	defer rd.Close()
+
+	options := ClozeOptions{}
+	for i := 0; i < len(opts); i++ {
+		opts[i](&options)
+	}
+
 	txt := []rune(string(bs))
 	var bf1, bf2 bytes.Buffer
 
@@ -22,7 +28,7 @@ func (tc *runeClozer) Cloze(rd io.ReadCloser, opts ...clozeOpt) (string, error) 
 		// 非 rune 的字符，例如英语单词。
 		var notRuneWord []rune
 		for i < len(txt) {
-			if multiByteRune(txt[i]) {
+			if MultiByteRune(txt[i]) {
 				break
 			}
 			notRuneWord = append(notRuneWord, txt[i])
@@ -39,9 +45,9 @@ func (tc *runeClozer) Cloze(rd io.ReadCloser, opts ...clozeOpt) (string, error) 
 		s1, s2 := string(c), string(c)
 		if !ignRunes[c] {
 			if idx%2 == 0 {
-				s1 = replaceChar(s1, true)
+				s1 = tc.replaceChar(s1, options)
 			} else {
-				s2 = replaceChar(s1, true)
+				s2 = tc.replaceChar(s1, options)
 			}
 			idx++
 		}
@@ -57,9 +63,9 @@ func (tc *runeClozer) Cloze(rd io.ReadCloser, opts ...clozeOpt) (string, error) 
 	return bf1.String() + "\n" + bf2.String(), nil
 }
 
-func replaceChar(c string, cloze bool) string {
-	if !cloze {
-		return symbol
+func (tc *runeClozer) replaceChar(c string, opts ClozeOptions) string {
+	if opts.Symbol != "" {
+		return opts.Symbol
 	}
 	return "{{c1::" + c + "}}"
 }

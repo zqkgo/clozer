@@ -1,25 +1,38 @@
-package main
+package clozer
 
 import "io"
 
-type clozeOpt func(o *clozeOptions)
+const (
+	typeCodeClozer = "code"
+	typeRuneClozer = "rune"
+	typeWordClozer = "word"
+)
 
-func withToggle(tgl bool) clozeOpt {
-	return func(o *clozeOptions) {
-		o.toggle = tgl
+type ClozeOpt func(o *ClozeOptions)
+
+func WithToggle(tgl bool) ClozeOpt {
+	return func(o *ClozeOptions) {
+		o.Toggle = tgl
 	}
 }
 
-type clozeOptions struct {
+func WithSymbol(s string) ClozeOpt {
+	return func(o *ClozeOptions) {
+		o.Symbol = s
+	}
+}
+
+type ClozeOptions struct {
 	// 交替 cloze。
-	toggle bool
+	Toggle bool
+	Symbol string
 }
 
 type Clozer interface {
-	Cloze(io.ReadCloser, ...clozeOpt) (string, error)
+	Cloze(io.ReadCloser, ...ClozeOpt) (string, error)
 }
 
-func getClozer(t string) Clozer {
+func GetClozer(t string) Clozer {
 	switch t {
 	case typeCodeClozer:
 		return &codeClozer{}
